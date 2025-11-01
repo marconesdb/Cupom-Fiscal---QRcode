@@ -1,0 +1,131 @@
+body {
+    font-family: 'Consolas', 'Courier New', monospace; /* Fonte monoespaçada para simular impressão */
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin: 0;
+}
+
+.cupom {
+    width: 300px; /* Largura típica de um cupom */
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 0.8em; /* Ajuste o tamanho da fonte */
+    line-height: 1.2;
+    color: #333;
+    white-space: pre-wrap; /* Para preservar quebras de linha e espaços */
+}
+
+.header, .item-header, .item, .totals, .access-key, .qr-code-section, .transaction-info, .footer {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.company-name {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.address-line, .cnpj {
+    font-size: 0.9em;
+}
+
+.doc-type {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.doc-type.electronica {
+    margin-top: 0;
+}
+
+.item-header {
+    border-top: 1px dashed #999;
+    border-bottom: 1px dashed #999;
+    padding: 5px 0;
+    text-align: left;
+    font-weight: bold;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.item-code {
+    margin-bottom: 2px;
+}
+
+.item-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-total {
+    margin-left: auto; /* Empurra o total para a direita */
+}
+
+.totals {
+    border-top: 1px dashed #999;
+    padding-top: 5px;
+    text-align: left;
+}
+
+.total-line {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.payment-method {
+    margin-top: 5px;
+}
+
+.access-key {
+    border-top: 1px dashed #999;
+    padding-top: 5px;
+    font-size: 0.9em;
+    word-break: break-all; /* Quebra de linha para a chave de acesso */
+}
+
+.qr-code-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 15px;
+    border-top: 1px dashed #999;
+    padding-top: 10px;
+}
+
+.qr-code img {
+    width: 100px; /* Tamanho do QR Code */
+    height: 100px;
+    border: 1px solid #eee;
+    margin-right: 10px;
+}
+
+.nfce-details {
+    flex-grow: 1;
+    text-align: left;
+    font-size: 0.85em;
+}
+
+.transaction-info {
+    border-top: 1px dashed #999;
+    padding-top: 10px;
+    margin-top: 15px;
+    text-align: left;
+    font-size: 0.85em;
+}
+
+.footer {
+    border-top: 1px dashed #999;
+    padding-top: 10px;
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+}

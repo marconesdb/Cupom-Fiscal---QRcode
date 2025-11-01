@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupom Fiscal (NFC-e)</title>
+    <link rel="stylesheet" href="estilo.css">
+    <script>
+        function imprimirCupom() {
+            window.print();
+        }
+    </script>
+</head>
+<body>
+    <div class="cupom">
+        <header class="cupom-header">
+            <p class="center bold">EMPREENDIMENTOS PAGUE MENOS S/A</p>
+            <p class="center">MOCO2-MONT CLAROS-MG</p>
+            <p class="center">AV. DONATO QUINTINO, 241</p>
+            <p class="center">CIDADE NOVA, MONTES CLAROS - MG</p>
+            <p class="center">CNPJ - 06.626.253/0003-08</p>
+            <hr class="linha-tracejada">
+            <p class="center bold">DOCUMENTO AUXILIAR DA NOTA FISCAL DE CONSUMIDOR ELETRÔNICA</p>
+            <hr class="linha-tracejada">
+        </header>
+
+        <section class="itens">
+            <p class="item-cabecalho">* PROD IDESCR QTD UN VLR UN R$ * VLR ITEM R$</p>
+            <p class="item-linha">
+                <span class="cod">001</span>
+                <span class="descricao">7899095258365 CLONAZEPAM 2.5MG/ML 20ML GN-G</span>
+                <span class="valor-total">7,19</span>
+            </p>
+            <p class="item-linha detalhe">
+                <span class="detalhe-esquerda">EQL B1.1 UN X 7,19 (1,00)</span>
+                <span class="detalhe-direita">1</span>
+            </p>
+        </section>
+
+        <section class="totais">
+            <p class="total-linha">
+                <span class="total-label bold">QTD. TOTAL DE ITENS</span>
+                <span class="total-valor bold">1</span>
+            </p>
+            <p class="total-linha">
+                <span class="total-label bold">VALOR TOTAL R$</span>
+                <span class="total-valor bold">7,19</span>
+            </p>
+            <p class="total-linha">
+                <span class="total-label">CARTAO OFF</span>
+                <span class="total-valor">7,19</span>
+            </p>
+        </section>
+
+        <section class="fiscal-info">
+            <hr class="linha-tracejada">
+            <p class="center">Consulta pela Chave de Acesso em</p>
+            <p class="center link-chave">https://portalsped.fazenda.mg.gov.br/portalnfce</p>
+            <p class="chave-acesso">3125 1105 6262 5306 0308 6510 0000 1935 1819 1664 3725</p>
+
+            <div class="qr-code-area">
+                <div class="qr-placeholder"></div>
+                <div class="dados-nfce">
+                    <p class="bold">CONSUMIDOR - CPF 067.158.626-21</p>
+                    <p>NFC-e 000193518 Série 100 01/11/2025 08:08:45</p>
+                    <p>Protocolo de autorização: 131258195728920</p>
+                    <p>Data de autorização 01/11/2025 08:08:46</p>
+                </div>
+            </div>
+            
+            <hr class="linha-tracejada">
+        </section>
+
+        <section class="detalhes-finais">
+            <p>20251101060310000268841</p>
+            <p>PU:9372378992 Volumes: 1</p>
+            <p>Vendedor: 116821 Brenda Emanuely Mart</p>
+            <p>Trib aprox R$: Val aprox Trib Fed 0,97 (0,13%)</p>
+            <p>Val aprox Trib Est 0,86 (0,12%) Fonte:IBPT</p>
+            <p class="final-info">
+                <span class="cod-final">CGC:268841 OP:121175</span>
+                <span class="nome-operador">MARLENE ALVES MAURI LJ:603 PDV:100</span>
+            </p>
+        </section>
+    </div>
+
+    <div class="button-area">
+        <button onclick="imprimirCupom()">Imprimir Cupom</button>
+    </div>
+</body>
+// Adicionado no <head> do HTML
+<script>
+    function imprimirCupom() {
+        window.print();
+    }
+</script>
+</html>

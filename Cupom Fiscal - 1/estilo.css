@@ -1,0 +1,184 @@
+body {
+    background-color: #f4f4f4; /* Cor de fundo para visualização na web */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+}
+
+/* Container principal do cupom, define a largura estreita */
+.cupom {
+    width: 280px; /* Largura típica de cupom fiscal */
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Fonte característica de impressora térmica */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px; 
+    line-height: 1.4;
+    color: #333;
+}
+
+p {
+    margin: 2px 0;
+    padding: 0;
+    text-align: left;
+}
+
+.center {
+    text-align: center !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.linha-tracejada {
+    border: none;
+    border-top: 1px dashed #333;
+    margin: 8px 0;
+}
+
+/* --- Seção de Itens --- */
+
+.item-cabecalho {
+    font-weight: bold;
+    margin-bottom: 5px;
+    white-space: pre; /* Ajuda a preservar espaços para alinhamento */
+}
+
+.item-linha {
+    display: flex;
+    justify-content: space-between;
+    /* Para alinhamento manual, se necessário, use espaços não-quebráveis no HTML */
+}
+
+.item-linha .descricao {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+.item-linha .valor-total {
+    white-space: nowrap; /* Impede a quebra de linha do valor */
+}
+
+.detalhe {
+    font-size: 10px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.detalhe .detalhe-esquerda {
+    flex-grow: 1;
+}
+
+/* --- Seção de Totais --- */
+
+.totais {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.total-linha {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total-linha .total-label {
+    flex-grow: 1;
+}
+
+.total-linha .total-valor {
+    white-space: nowrap;
+}
+
+/* --- Seção Fiscal --- */
+
+.chave-acesso {
+    font-size: 10px;
+    text-align: center;
+    /* Para quebrar a chave de acesso em espaços */
+    word-break: break-all; 
+    margin: 5px 0 10px 0;
+}
+
+.link-chave {
+    text-decoration: underline;
+}
+
+.qr-code-area {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.qr-placeholder {
+    width: 70px;
+    height: 70px;
+    background-color: #eee;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.dados-nfce {
+    flex-grow: 1;
+    font-size: 10px;
+}
+
+/* --- Seção Final --- */
+
+.detalhes-finais {
+    margin-top: 10px;
+}
+
+.final-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.cod-final {
+    font-weight: bold;
+}
+
+
+/* Estilos para impressão */
+@media print {
+    body {
+        background-color: white; /* Cor de fundo branca para impressão */
+    }
+
+    .cupom {
+        /* Garante que o cupom imprima sem margens extras do navegador */
+        width: 80mm; /* Ou a largura desejada para a impressão (80mm é comum) */
+        border: none;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        font-size: 9pt; /* Ajuste para o tamanho de fonte de impressão */
+    }
+    
+    .button-area {
+        display: none; /* Esconde o botão de impressão */
+    }
+}
+
+/* Estilo para o botão de impressão (opcional) */
+.button-area {
+    margin-top: 20px;
+}
+
+.button-area button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
