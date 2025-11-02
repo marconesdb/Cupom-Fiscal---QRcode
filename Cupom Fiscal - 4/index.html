@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupom de Ofertas</title>
+    <style>
+        /* --- CSS para Estilização do Cupom --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .coupon-container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #ffffff;
+            border: 2px dashed #b0b0b0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden; /* Necessário para o carimbo de vencido */
+        }
+
+        /* Carimbo de Vencido (via JS) */
+        .expired-stamp {
+            position: absolute;
+            top: 30px;
+            right: -45px;
+            background-color: #d90429;
+            color: white;
+            padding: 10px 50px;
+            font-size: 1.5em;
+            font-weight: 700;
+            text-transform: uppercase;
+            transform: rotate(45deg);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            letter-spacing: 1px;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #003b73; /* Tom de azul escuro */
+            color: white;
+            padding: 20px 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        header h2 {
+            margin: 5px 0 0;
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #f1c40f; /* Destaque amarelo/dourado */
+        }
+
+        /* Saudação */
+        .greeting {
+            background-color: #e6f0fa; /* Azul claro */
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid #d1e3f8;
+        }
+
+        .greeting p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .greeting .customer-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #003b73;
+        }
+
+        .greeting .customer-level {
+            font-weight: 600;
+            color: #0056b3;
+        }
+
+        /* Corpo Principal (Ofertas) */
+        main {
+            padding: 25px;
+        }
+
+        main h3 {
+            font-size: 1.5em;
+            color: #333;
+            border-bottom: 2px solid #003b73;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+
+        main h3:first-child {
+            margin-top: 0;
+        }
+
+        .offer-grid {
+            display: grid;
+            gap: 15px;
+            /* Grade responsiva: 1 coluna em telas pequenas, 2 em médias/grandes */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .offer-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .offer-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .offer-desc {
+            font-size: 1em;
+            font-weight: 600;
+            color: #222;
+            flex-grow: 1;
+        }
+
+        .offer-discount {
+            text-align: center;
+            color: #d90429; /* Vermelho para desconto */
+            flex-shrink: 0;
+            min-width: 90px;
+        }
+
+        .discount-main {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .discount-prefix {
+            font-size: 2.5em;
+            font-weight: 800;
+            color: #333; /* Cor diferente para o "2+" */
+        }
+        
+        .discount-number {
+            font-size: 3.2em;
+            font-weight: 900;
+        }
+
+        .discount-unit {
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-left: 3px;
+        }
+
+        /* Para ofertas como "NA 2a UNID" */
+        .discount-unit.small {
+            font-size: 1em;
+            font-weight: 700;
+            display: block;
+            margin-left: 0;
+            margin-top: -5px;
+        }
+
+        .discount-label {
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .disclaimer {
+            font-size: 0.9em;
+            font-style: italic;
+            text-align: center;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        /* Rodapé do Cupom */
+        .coupon-footer {
+            background-color: #f9f9f9;
+            border-top: 1px solid #eee;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #444;
+        }
+
+        .coupon-footer p {
+            margin: 5px 0;
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        .coupon-footer .validity {
+            font-weight: 600;
+        }
+        
+        /* Seção Adicional Solicitada */
+        .additional-content {
+            padding: 25px;
+            background-color: #fdfdfd;
+            border-top: 2px dashed #b0b0b0;
+        }
+
+        .additional-content h3 {
+            text-align: center;
+            color: #003b73;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+        }
+
+        .additional-content ol {
+            padding-left: 30px; /* Alinha os números da lista */
+            margin: 0;
+        }
+
+        .additional-content li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 1.05em;
+            color: #333;
+        }
+
+        .additional-content li strong {
+            color: #111;
+            font-size: 1.1em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="coupon-container">
+        
+        <header>
+            <h1>PROGRAMA DE FIDELIDADE SEMPRE [cite: 1]</h1>
+            <h2>DESCONTO SO meu. [cite: 2]</h2>
+        </header>
+
+        <section class="greeting">
+            <p class="customer-name">Oi, Marcone [cite: 3]</p>
+            <p class="customer-level">Você é Cliente AZUL! [cite: 3]</p>
+            <p>Aproveite suas ofertas personalizadas! [cite: 4]</p>
+        </section>
+
+        <main>
+            <h3>Suas ofertas [cite: 5]</h3>
+            <div class="offer-grid">
+                
+                <div class="offer-item">
+                    <div class="offer-desc">ANTIBIOTICO CEFALEXINA 500MG COM 10 COMPRIMIDOS (EMS GENÉRICO) [cite: 6]</div>
+                    <div class="offer-discount">
+                        <div class="discount-main">
+                            <span class="discount-number">15 [cite: 7]</span>
+                            <span class="discount-unit">% [cite: 8]</span>
+                        </div>
+                        <div class="discount-label">DESCONTO [cite: 9]</div>
+                    </div>
+                </div>
+
+                <div class="offer-item">
+                    <div class="offer-desc">SIMETICONA GTS 75MG/ML 15ML CIMED [cite: 10]</div>
+                    <div class="offer-discount">
+                        <div class="discount-main">
+                            <span class="discount-prefix">2+ [cite: 11]</span>
+                            <span class="discount-number">15 [cite: 12]</span>
+                            <span class="discount-unit">% [cite: 13]</span>
+                        </div>
+                        <div class="discount-label">DESCONTO [cite: 13]</div>
+                    </div>
+                </div>
+
+                <div class="offer-item">
+                    <div class="offer-desc">TODA LINHA NUTRICAO ADULTA [cite: 14] + [cite: 15] GLUCERNA [cite: 16]</div>
+                    <div class="offer-discount">
+                        <div class="discount-main">
+                            <span class="discount-number">10 [cite: 17]</span>
+                            <span class="discount-unit">% [cite: 17]</span>
+                        </div>
+                        <div class="discount-label">DE DESCONTO [cite: 18]</div>
+                    </div>
+                </div>
+
+                <div class="offer-item">
+                    <div class="offer-desc">PRIMEIRO SOCORROS DAUF OU PAGUE MENOS [cite: 19, 20]</div>
+                    <div class="offer-discount">
+                        <div class="discount-main">
+                            <span class="discount-number">10 [cite: 21]</span>
+                            <span class="discount-unit">% [cite: 22]</span>
+                        </div>
+                        <div class="discount-label">DE DESCONTO [cite: 23]</div>
+                    </div>
+                </div>
+
+                <div class="offer-item">
+                    <div class="offer-desc">ANALGESICO-ANTITERMICO TRAMAL 50MG CAP/20 A2 [cite: 24, 25]</div>
+                    <div class="offer-discount">
+                        <div class="discount-main">
+                            <span class="discount-number">10 [cite: 26]</span>
+                            <span class="discount-unit">% [cite: 27]</span>
+                        </div>
+                        <div class="discount-label">DESCONTO [cite: 28]</div>
+                    </div>
+                </div>
+            </div> <h3>Você pode gostar [cite: 29]</h3>
+            <div class="offer-grid">
+                <div class="offer-item">
+                    <div class="offer-desc">TODA LINHA TOSSE CARREGADA + [cite: 30, 31]</div>
+                    <div class="offer-discount">
+                        <div class="discount-main">
+                            <span class="discount-number">10 [cite: 32]</span>
+                            <span class="discount-unit">%</span> </div>
+                        <div class="discount-label">DESCONTO [cite: 33]</div>
+                    </div>
+                </div>
+            </div> <h3>Top Ofertas da Loja [cite: 34]</h3>
+            <div class="offer-grid">
+                <div class="offer-item">
+                    <div class="offer-desc">NUTRIDRINK PROTEIN PO S/SABOR 700G [cite: 35] Nutridrink [cite: 36]</div>
+                    <div class="offer-discount">
+                        <div class="discount-main">
+                            <span class="discount-number">40</span>
+                            <span class="discount-unit">%</span>
+                        </div>
+                        <div class="discount-unit small">NA 2a UNID [cite: 37]</div>
+                    </div>
+                </div>
+            </div> <p class="disclaimer">Não curnulativo com outros descontos [cite: 38]</p>
+        
+        </main>
+
+        <footer class="coupon-footer">
+            <p>14047115-1168217 [cite: 39]</p>
+            <p>cliente: Marcone Silva De Brito [cite: 40]</p>
+            <p>cpf: 067. -21 [cite: 40]</p>
+            <p class="validity" id="validity-date">Validade do 01/11/2015 </p>
+        </footer>
+
+        <section class="additional-content">
+            <h3>✨ 10 Sacrifícios e Ofertas Agradáveis a Deus</h3>
+            <ol>
+                <li>
+                    <strong>Obediência à vontade divina</strong><br>
+                    - Considerado superior a qualquer sacrifício ritual. “Obedecer é melhor do que sacrificar” (1 Samuel 15:22).
+                </li>
+                <li>
+                    <strong>Justiça e retidão</strong><br>
+                    - A prática da justiça é vista como uma oferenda contínua. Em Eclesiástico 35, diz-se que “aquele que guarda a Lei oferece sacrifícios agradáveis a Deus”.
+                </li>
+                <li>
+                    <strong>Coração alegre e voluntário</strong><br>
+                    - Ofertas feitas com alegria e sinceridade são mais valiosas do que a quantia em si. “Deus ama quem dá com alegria” (2 Coríntios 9:7).
+                </li>
+                <li>
+                    <strong>Ajuda aos necessitados (caridade)</strong><br>
+                    - Ajudar os pobres é comparado a emprestar a Deus (Provérbios 19:17). A caridade é um sacrifício que agrada profundamente a Deus.
+                </li>
+                <li>
+                    <strong>Louvor e gratidão</strong><br>
+                    - No cristianismo e judaísmo, louvar a Deus com sinceridade é considerado um sacrifício espiritual (Hebreus 13:15).
+                </li>
+                <li>
+                    <strong>Arrependimento sincero</strong><br>
+                    - O coração contrito é mais valioso do que qualquer oferta material. “Sacrifícios agradáveis a Deus são o espírito quebrantado” (Salmo 51:17).
+                </li>
+                <li>
+                    <strong>Dízimo com fé e gratidão</strong><br>
+                    - Entregar o dízimo como reconhecimento de que tudo vem de Deus, feito com fé e não por obrigação.
+                </li>
+                <li>
+                    <strong>Perdão e reconciliação</strong><br>
+                    - Antes de oferecer algo a Deus, é necessário reconciliar-se com o próximo (Mateus 5:23-24).
+                </li>
+                <li>
+                    <strong>Serviço ao próximo</strong><br>
+                    - Atos de bondade e serviço são considerados ofertas vivas, especialmente no cristianismo e no islamismo.
+                </li>
+                <li>
+                    <strong>Consagração da vida</strong><br>
+                    - No hinduísmo e no budismo, a renúncia ao ego e a dedicação da vida ao bem maior são formas elevadas de oferenda espiritual.
+                </li>
+            </ol>
+        </section>
+
+    </div> <script>
+        // --- JavaScript para funcionalidade do Cupom ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verifica a data de validade do cupom
+            const validityEl = document.getElementById('validity-date');
+            const validityText = validityEl.textContent; // "Validade do 01/11/2015" 
+            
+            // Extrai a data usando uma expressão regular
+            const dateMatch = validityText.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+            
+            if (dateMatch) {
+                const day = parseInt(dateMatch[1], 10);
+                const month = parseInt(dateMatch[2], 10) - 1; // Meses em JavaScript são de 0 a 11
+                const year = parseInt(dateMatch[3], 10);
+                
+                const validityDate = new Date(year, month, day);
+                // Define a data de validade para o final do dia
+                validityDate.setHours(23, 59, 59, 999); 
+                
+                const today = new Date();
+                
+                if (validityDate < today) {
+                    // O cupom está vencido
+                    validityEl.style.color = '#d90429';
+                    validityEl.style.fontWeight = '700';
+                    validityEl.textContent = `VENCIDO (Validade: 01/11/2015)`;
+                    
+                    // Adiciona o carimbo "VENCIDO"
+                    const container = document.querySelector('.coupon-container');
+                    const stamp = document.createElement('div');
+                    stamp.className = 'expired-stamp';
+                    stamp.textContent = 'VENCIDO';
+                    container.prepend(stamp); // Adiciona o carimbo no início do container
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

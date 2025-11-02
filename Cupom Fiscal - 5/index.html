@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cupom de Ofertas — Farmácia</title>
+  <style>
+    /* Reset mínimo */
+    :root{
+      --bg:#f6f8fa; --card:#ffffff; --accent:#0b6efd; --muted:#6b7280; --success:#10b981;
+      --shadow: 0 6px 20px rgba(11,110,253,0.06), 0 2px 6px rgba(15,23,42,0.04);
+      --radius:12px; --mono: "Segoe UI Mono", "Roboto Mono", Menlo, monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 100%); color:#0f172a; -webkit-font-smoothing:antialiased;
+      padding:40px; display:flex; align-items:center; justify-content:center;
+    }
+
+    .wrapper{width:100%; max-width:980px}
+
+    .header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:22px;box-shadow:var(--shadow)}
+    .brand h1{margin:0;font-size:18px}
+    .brand p{margin:0;font-size:13px;color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+
+    /* Painel principal do cupom */
+    .coupon-card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+    .coupon-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .coupon-left{display:flex;flex-direction:column}
+    .tag{background:#eef2ff;color:var(--accent);padding:6px 10px;border-radius:10px;font-size:13px;font-weight:600}
+    .title{font-size:20px;margin:10px 0 6px}
+    .subtitle{color:var(--muted);margin:0;font-size:13px}
+
+    .offers{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    .offer{flex:1 1 220px;background:#fbfdff;border:1px solid #eef2ff;padding:12px;border-radius:10px}
+    .offer h3{margin:0;font-size:15px}
+    .offer p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .price{display:flex;align-items:baseline;gap:8px;margin-top:8px}
+    .old{font-size:13px;text-decoration:line-through;color:var(--muted)}
+    .new{font-size:18px;font-weight:700;color:var(--accent)}
+
+    .coupon-actions{display:flex;gap:8px;margin-top:16px}
+    button{cursor:pointer;border:0;padding:10px 14px;border-radius:10px;font-weight:600}
+    .btn-primary{background:var(--accent);color:white}
+    .btn-outline{background:transparent;border:1px solid #e6eefc;color:var(--accent)}
+
+    /* Lateral — resumo e código do cupom */
+    .aside{background:linear-gradient(180deg,#fff,#fbfdff);padding:18px;border-radius:12px;box-shadow:var(--shadow);height:100%}
+    .aside h4{margin:0 0 8px}
+    .coupon-code{font-family:var(--mono);background:#0f172a;color:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .meta{font-size:13px;color:var(--muted);margin-top:10px}
+
+    /* Mensagem final (texto fornecido) */
+    .message{margin-top:18px;background:#fffef6;border-left:4px solid #f59e0b;padding:16px;border-radius:8px}
+    .message h3{margin:0 0 8px}
+    .message ol{margin:0 0 0 18px;padding:0}
+    .message li{margin:8px 0}
+    .message li strong{font-weight:700}
+    .message p{margin:6px 0;color:var(--muted)}
+
+    /* Responsividade */
+    @media (max-width:880px){
+      .grid{grid-template-columns:1fr;}
+      body{padding:18px}
+      .aside{order:2}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper" role="main">
+    <div class="header">
+      <div class="brand">
+        <div class="logo" aria-hidden>F</div>
+        <div>
+          <h1>Farmácia Viva — Cupom de Ofertas</h1>
+          <p>Produtos selecionados com desconto por tempo limitado</p>
+        </div>
+      </div>
+      <div class="help" aria-hidden>
+        <small style="color:var(--muted)">Validade: até 30/11/2025 • Entrega sujeita a disponibilidade</small>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="coupon-card" aria-labelledby="couponTitle">
+        <div class="coupon-top">
+          <div class="coupon-left">
+            <span class="tag">Promoção Especial</span>
+            <h2 id="couponTitle" class="title">Seleção de Cuidados Pessoais — Até 40% OFF</h2>
+            <p class="subtitle">Economize em remédios isentos de prescrição, vitaminas e itens de higiene.</p>
+          </div>
+          <div style="text-align:right">
+            <small class="meta">Frete grátis acima de R$ 199</small>
+          </div>
+        </div>
+
+        <div class="offers" aria-live="polite">
+          <article class="offer" data-id="p1">
+            <h3>Multivitamínico A — 60 cápsulas</h3>
+            <p>Suporte diário — Fórmula balanceada.</p>
+            <div class="price"><span class="old">R$ 89,90</span><span class="new">R$ 53,94</span></div>
+          </article>
+
+          <article class="offer" data-id="p2">
+            <h3>Analgésico B — 20 comprimidos</h3>
+            <p>Alívio rápido para dores leves.</p>
+            <div class="price"><span class="old">R$ 24,50</span><span class="new">R$ 14,70</span></div>
+          </article>
+
+          <article class="offer" data-id="p3">
+            <h3>Protetor Solar FPS 50 — 120ml</h3>
+            <p>Alta proteção, efeito matte.</p>
+            <div class="price"><span class="old">R$ 79,90</span><span class="new">R$ 47,94</span></div>
+          </article>
+
+          <article class="offer" data-id="p4">
+            <h3>Máscara Facial Hidratante — 1 unidade</h3>
+            <p>Hidratação intensiva.</p>
+            <div class="price"><span class="old">R$ 29,90</span><span class="new">R$ 17,94</span></div>
+          </article>
+        </div>
+
+        <div class="coupon-actions" aria-hidden>
+          <button class="btn-primary" id="applyAll">Aplicar todos os cupons</button>
+          <button class="btn-outline" id="printPage">Imprimir</button>
+          <button class="btn-outline" id="shareBtn">Copiar link</button>
+        </div>
+
+        <!-- Mensagem fornecida pelo usuário adicionada ao final da página do cupom -->
+        <div class="message" id="spiritualMessage">
+          <h3>✨ 10 Sacrifícios e Ofertas Agradáveis a Deus</h3>
+          <ol>
+            <li><strong>Obediência à vontade divina</strong><br><small>Considerado superior a qualquer sacrifício ritual. “Obedecer é melhor do que sacrificar” (1 Samuel 15:22).</small></li>
+            <li><strong>Justiça e retidão</strong><br><small>A prática da justiça é vista como uma oferenda contínua. Em Eclesiástico 35, diz-se que “aquele que guarda a Lei oferece sacrifícios agradáveis a Deus”.</small></li>
+            <li><strong>Coração alegre e voluntário</strong><br><small>Ofertas feitas com alegria e sinceridade são mais valiosas do que a quantia em si. “Deus ama quem dá com alegria” (2 Coríntios 9:7).</small></li>
+            <li><strong>Ajuda aos necessitados (caridade)</strong><br><small>Ajudar os pobres é comparado a emprestar a Deus (Provérbios 19:17). A caridade é um sacrifício que agrada profundamente a Deus.</small></li>
+            <li><strong>Louvor e gratidão</strong><br><small>No cristianismo e judaísmo, louvar a Deus com sinceridade é considerado um sacrifício espiritual (Hebreus 13:15).</small></li>
+            <li><strong>Arrependimento sincero</strong><br><small>O coração contrito é mais valioso do que qualquer oferta material. “Sacrifícios agradáveis a Deus são o espírito quebrantado” (Salmo 51:17).</small></li>
+            <li><strong>Dízimo com fé e gratidão</strong><br><small>Entregar o dízimo como reconhecimento de que tudo vem de Deus, feito com fé e não por obrigação.</small></li>
+            <li><strong>Perdão e reconciliação</strong><br><small>Antes de oferecer algo a Deus, é necessário reconciliar-se com o próximo (Mateus 5:23-24).</small></li>
+            <li><strong>Serviço ao próximo</strong><br><small>Atos de bondade e serviço são considerados ofertas vivas, especialmente no cristianismo e no islamismo.</small></li>
+            <li><strong>Consagração da vida</strong><br><small>No hinduísmo e no budismo, a renúncia ao ego e a dedicação da vida ao bem maior são formas elevadas de oferenda espiritual.</small></li>
+          </ol>
+        </div>
+
+      </section>
+
+      <aside class="aside" aria-labelledby="asideTitle">
+        <h4 id="asideTitle">Resumo do Cupom</h4>
+        <div class="coupon-code" role="region" aria-label="Código do cupom">
+          <code id="codeText">VIVA40</code>
+          <button id="copyCode" title="Copiar código">Copiar</button>
+        </div>
+        <p class="meta">Aplicável em produtos selecionados. Limitado a um uso por cliente. Sujeito a disponibilidade em estoque.</p>
+
+        <div style="margin-top:12px">
+          <strong>Como usar</strong>
+          <ol style="margin:6px 0 0 18px;padding:0;color:var(--muted);font-size:13px">
+            <li>Adicione produtos elegíveis ao carrinho.</li>
+            <li>Insira o código <span style="font-family:var(--mono)">VIVA40</span> no campo de cupom.</li>
+            <li>Verifique desconto e finalize a compra.</li>
+          </ol>
+        </div>
+
+        <div style="margin-top:14px;display:flex;gap:8px">
+          <button class="btn-primary" id="openShop">Ir para a loja</button>
+          <button class="btn-outline" id="terms">Termos</button>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <script>
+    // Funções de interação (preservando simplicidade e reutilizabilidade)
+    const copyCodeBtn = document.getElementById('copyCode');
+    const codeText = document.getElementById('codeText');
+    copyCodeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(codeText.textContent.trim());
+        copyCodeBtn.textContent = 'Copiado';
+        setTimeout(()=> copyCodeBtn.textContent = 'Copiar', 1600);
+      } catch (e) {
+        alert('Não foi possível copiar automaticamente. Selecione e copie manualmente: ' + codeText.textContent);
+      }
+    });
+
+    // Ações principais
+    document.getElementById('applyAll').addEventListener('click', ()=>{
+      // Demostração: marca visual nas ofertas (não altera servidor)
+      document.querySelectorAll('.offer').forEach(el=> el.style.borderColor = '#e4f0ff');
+      alert('Cupons aplicados aos itens visíveis (simulação).');
+    });
+
+    document.getElementById('printPage').addEventListener('click', ()=> window.print());
+
+    document.getElementById('shareBtn').addEventListener('click', async ()=>{
+      const url = location.href;
+      try{
+        await navigator.clipboard.writeText(url);
+        alert('Link copiado para a área de transferência: ' + url);
+      }catch(e){
+        prompt('Copie este link:', url);
+      }
+    });
+
+    document.getElementById('openShop').addEventListener('click', ()=>{
+      // Em uma integração real, redirecionar para a página da loja.
+      window.location.href = '#loja';
+    });
+
+    document.getElementById('terms').addEventListener('click', ()=>{
+      alert('Termos: promoções válidas enquanto durar o estoque. Consulte regras na página da loja.');
+    });
+
+    // Acessibilidade: permitir cópia via tecla 'c' quando foco em coupon-card
+    document.querySelector('.coupon-card').addEventListener('keydown', (ev)=>{
+      if(ev.key.toLowerCase() === 'c' && ev.altKey){
+        navigator.clipboard && navigator.clipboard.writeText(codeText.textContent);
+        alert('Cupom copiado');
+      }
+    });
+  </script>
+</body>
+</html>
